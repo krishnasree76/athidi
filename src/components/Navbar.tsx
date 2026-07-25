@@ -1,6 +1,8 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import logoSrc from "@/assets/logo.png";
+import { ShoppingCart } from "lucide-react";
+import { useCart } from "@/hooks/use-cart";
 
 const links = [
   { to: "/", label: "Home" },
@@ -14,6 +16,7 @@ const links = [
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { itemCount } = useCart();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -51,20 +54,31 @@ export function Navbar() {
           ))}
         </nav>
 
-        <div className="hidden md:flex items-center gap-3">
-          <a href="#reserve" className="btn-gold text-sm">Reserve Table</a>
-          <a href="#reserve" className="btn-primary text-sm">Order Online</a>
-        </div>
+        <div className="flex items-center gap-4">
+          <div className="hidden md:flex items-center gap-3">
+            <a href="#reserve" className="btn-gold text-sm">Reserve Table</a>
+            <a href="#reserve" className="btn-primary text-sm">Order Online</a>
+          </div>
 
-        <button
-          aria-label="Menu"
-          onClick={() => setOpen((v) => !v)}
-          className="lg:hidden inline-flex flex-col gap-1.5 p-2"
-        >
-          <span className={`h-0.5 w-6 bg-burgundy transition ${open ? "translate-y-2 rotate-45" : ""}`} />
-          <span className={`h-0.5 w-6 bg-burgundy transition ${open ? "opacity-0" : ""}`} />
-          <span className={`h-0.5 w-6 bg-burgundy transition ${open ? "-translate-y-2 -rotate-45" : ""}`} />
-        </button>
+          <Link to="/cart" className="relative p-2 text-ink/80 hover:text-burgundy transition-colors">
+            <ShoppingCart className="h-6 w-6" />
+            {itemCount > 0 && (
+              <span className="absolute top-0 right-0 h-4 w-4 rounded-full bg-gold text-ink text-[10px] font-bold flex items-center justify-center">
+                {itemCount}
+              </span>
+            )}
+          </Link>
+
+          <button
+            aria-label="Menu"
+            onClick={() => setOpen((v) => !v)}
+            className="lg:hidden inline-flex flex-col gap-1.5 p-2"
+          >
+            <span className={`h-0.5 w-6 bg-burgundy transition ${open ? "translate-y-2 rotate-45" : ""}`} />
+            <span className={`h-0.5 w-6 bg-burgundy transition ${open ? "opacity-0" : ""}`} />
+            <span className={`h-0.5 w-6 bg-burgundy transition ${open ? "-translate-y-2 -rotate-45" : ""}`} />
+          </button>
+        </div>
       </div>
 
       {open && (

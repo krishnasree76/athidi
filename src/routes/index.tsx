@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Star, Utensils, Leaf, Heart, Award, Users, Sparkles, QrCode, Scan, ShoppingBag, Smile, Phone, MapPin, Mail, Clock, ChevronDown } from "lucide-react";
+import { ArrowRight, Star, Utensils, Leaf, Heart, Award, Users, Sparkles, QrCode, Scan, ShoppingBag, Smile, Phone, MapPin, Mail, Clock, ChevronDown, Search, Plus, Flame } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Mandala, Divider, Paisley, Lotus } from "@/components/Mandala";
@@ -8,6 +9,7 @@ import { CATEGORIES } from "@/data/menu";
 import logoAsset from "@/assets/athidhi-logo.png.asset.json";
 import imgSignatureBiryani from "@/assets/HyderabadiChickenDumBiryani.png";
 import imgSignatureMangoLassi from "@/assets/mangolassi.png";
+import { useCart } from "@/hooks/use-cart";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -36,7 +38,7 @@ function Home() {
       <Navbar />
       <Hero />
       <About />
-      <Categories />
+      <MenuSection />
       <Signature />
       <WhyUs />
       <Reviews />
@@ -203,54 +205,136 @@ function About() {
   );
 }
 
-/* ---------------- CATEGORIES (homepage menu preview) ---------------- */
-function Categories() {
+/* ---------------- MENU PREVIEW SECTION ---------------- */
+function MenuSection() {
+  const [activeCategory, setActiveCategory] = useState<string>("all");
+  const [searchQuery, setSearchQuery] = useState("");
+  const { addItem } = useCart();
+
+  const filteredItems = useMemo(() => {
+    let items: any[] = [];
+    if (activeCategory === "all") {
+      items = CATEGORIES.flatMap(c => c.items.map(i => ({ ...i, categorySlug: c.slug, categoryImage: c.image, categoryName: c.name })));
+    } else {
+      const c = CATEGORIES.find(c => c.slug === activeCategory);
+      if (c) {
+        items = c.items.map(i => ({ ...i, categorySlug: c.slug, categoryImage: c.image, categoryName: c.name }));
+      }
+    }
+
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      items = items.filter(i => i.name.toLowerCase().includes(q) || i.description.toLowerCase().includes(q));
+    }
+
+    return items;
+  }, [activeCategory, searchQuery]);
+
   return (
     <section id="categories" className="relative py-28 lg:py-40 bg-beige overflow-hidden">
       <Lotus className="pointer-events-none absolute top-10 left-1/2 -translate-x-1/2 w-64 text-burgundy opacity-25" />
       <Mandala className="pointer-events-none absolute -bottom-40 -left-40 w-[500px] text-burgundy opacity-25 animate-spin-slower" />
 
       <div className="container-luxury relative z-10">
-        <motion.div {...fadeUp} className="text-center max-w-2xl mx-auto mb-16">
+        <motion.div {...fadeUp} className="text-center max-w-2xl mx-auto mb-12">
           <div className="gold-divider justify-center mb-5"><span className="h-px w-8 bg-gold" /> The Menu <span className="h-px w-8 bg-gold" /></div>
-          <h2 className="font-serif text-5xl lg:text-6xl text-burgundy leading-tight">Choose your journey</h2>
-          <p className="mt-4 text-ink/60 text-lg">Twelve heritage collections, each a doorway into a different corner of India. Select a category to explore its full menu.</p>
+          <h2 className="font-serif text-5xl lg:text-6xl text-burgundy leading-tight">Our Collections</h2>
         </motion.div>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {CATEGORIES.map((c, i) => (
-            <motion.div
-              key={c.slug}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.7, delay: (i % 3) * 0.08, ease: [0.2, 0.9, 0.3, 1] }}
+        {/* Filters & Search */}
+        <div className="mb-12 flex flex-col gap-6">
+          <div className="flex items-center bg-white rounded-full px-4 py-2 sm:py-3 border border-burgundy/10 shadow-soft max-w-md mx-auto w-full">
+            <Search className="h-4 w-4 sm:h-5 sm:w-5 text-ink/40 mr-2 sm:mr-3 shrink-0" />
+            <input
+              type="text"
+              placeholder="Search dishes..."
+              className="flex-1 bg-transparent border-none outline-none text-ink text-sm sm:text-base placeholder:text-ink/30 min-w-0"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+
+          <div className="flex overflow-x-auto pb-4 gap-2 no-scrollbar justify-start md:justify-center flex-nowrap md:flex-wrap px-4 sm:px-0">
+            <button
+              onClick={() => setActiveCategory("all")}
+              className={`px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition whitespace-nowrap border shrink-0 ${activeCategory === "all" ? "bg-burgundy text-cream border-burgundy" : "bg-cream text-burgundy border-burgundy/10 hover:border-burgundy/30"}`}
             >
-              <Link
-                to="/menu/$slug"
-                params={{ slug: c.slug }}
-                className="group relative flex flex-col h-full overflow-hidden rounded-3xl bg-cream border border-burgundy/10 p-8 transition-all duration-500 hover:-translate-y-2 hover:shadow-luxury hover:border-gold/40"
+              All
+            </button>
+            {CATEGORIES.map(c => (
+              <button
+                key={c.slug}
+                onClick={() => setActiveCategory(c.slug)}
+                className={`px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition whitespace-nowrap border shrink-0 ${activeCategory === c.slug ? "bg-burgundy text-cream border-burgundy" : "bg-cream text-burgundy border-burgundy/10 hover:border-burgundy/30"}`}
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-burgundy/[0.03] opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                <Mandala className="pointer-events-none absolute -right-10 -bottom-10 w-40 text-burgundy opacity-25 group-hover:opacity-40 group-hover:rotate-45 transition-all duration-[1500ms]" />
+                {c.name}
+              </button>
+            ))}
+          </div>
+        </div>
 
-                <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden mb-6 bg-beige/50">
-                  <img src={c.image} alt={c.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                </div>
+        {/* Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 px-4 sm:px-0">
+          {filteredItems.map((item, i) => (
+             <motion.article
+                key={item.name + i}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3 }}
+                className="group relative flex flex-col overflow-hidden rounded-2xl sm:rounded-3xl bg-white border border-burgundy/10 shadow-soft hover:shadow-luxury transition-all duration-500"
+              >
+                  {/* Image placeholder */}
+                  <div className="relative w-full aspect-square bg-gradient-to-br from-beige via-cream to-beige overflow-hidden">
+                    <div className="absolute inset-0 grid place-items-center group-hover:scale-110 transition-transform duration-700">
+                      <img src={item.categoryImage} alt={item.categoryName} className="w-full h-full object-cover" />
+                    </div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-ink/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    
+                    {(item.chefSpecial || item.bestSeller) && (
+                      <div className="absolute top-2 left-2 sm:top-3 sm:left-3 flex flex-col gap-1 sm:gap-1.5">
+                        {item.chefSpecial && (
+                          <span className="inline-flex items-center gap-0.5 sm:gap-1 rounded-full bg-burgundy text-cream text-[7px] sm:text-[9px] font-bold uppercase tracking-widest px-1.5 sm:px-2.5 py-0.5 sm:py-1">
+                            <Sparkles className="h-2 w-2 sm:h-2.5 sm:w-2.5" /> Chef
+                          </span>
+                        )}
+                        {item.bestSeller && (
+                          <span className="inline-flex items-center gap-0.5 sm:gap-1 rounded-full bg-gold text-ink text-[7px] sm:text-[9px] font-bold uppercase tracking-widest px-1.5 sm:px-2.5 py-0.5 sm:py-1">
+                            <Flame className="h-2 w-2 sm:h-2.5 sm:w-2.5" /> Best Seller
+                          </span>
+                        )}
+                      </div>
+                    )}
+                  </div>
 
-                <h3 className="relative font-serif text-3xl text-burgundy leading-tight">{c.name}</h3>
-                <p className="relative mt-2 text-sm text-ink/60 leading-relaxed flex-1">{c.tagline}</p>
-
-                <div className="relative mt-8 flex justify-end">
-                  <span className="inline-flex items-center gap-2 text-sm font-semibold text-burgundy group-hover:text-gold transition-colors">
-                    Explore
-                    <ArrowRight className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-1" />
-                  </span>
-                </div>
-              </Link>
-            </motion.div>
+                  {/* Body */}
+                  <div className="flex-1 p-3 sm:p-5 flex flex-col">
+                    <div className="flex items-start gap-1.5 sm:gap-2 mb-2">
+                       <span className={`mt-1 h-2 w-2 sm:h-3 sm:w-3 shrink-0 rounded-sm border-[1.5px] sm:border-2 ${item.veg ? "border-green-700" : "border-red-700"} grid place-items-center`}>
+                          <span className={`h-[3px] w-[3px] sm:h-1.5 sm:w-1.5 rounded-full ${item.veg ? "bg-green-700" : "bg-red-700"}`} />
+                       </span>
+                       <h3 className="font-serif text-sm sm:text-[17px] text-burgundy leading-tight sm:leading-tight line-clamp-2">{item.name}</h3>
+                    </div>
+                    
+                    <p className="hidden sm:block text-xs text-ink/60 leading-relaxed line-clamp-2 mb-3 flex-1">{item.description}</p>
+                    
+                    <div className="flex items-center justify-between mt-auto pt-2 sm:pt-0">
+                        <div className="font-serif text-sm sm:text-lg text-gold">{item.price}</div>
+                        <button 
+                          onClick={() => addItem(item)}
+                          className="h-7 w-7 sm:h-9 sm:w-9 rounded-full bg-burgundy text-cream grid place-items-center hover:bg-gold hover:text-ink transition shrink-0"
+                        >
+                           <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
+                        </button>
+                    </div>
+                  </div>
+              </motion.article>
           ))}
         </div>
+        {filteredItems.length === 0 && (
+          <div className="text-center py-20 text-ink/50">
+            No dishes found matching your search.
+          </div>
+        )}
       </div>
     </section>
   );
