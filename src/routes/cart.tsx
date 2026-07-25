@@ -11,7 +11,7 @@ export const Route = createFileRoute("/cart")({
 });
 
 function CartPage() {
-  const { items, updateQuantity, removeItem, itemCount } = useCart();
+  const { items, updateQuantity, removeItem, itemCount, clearCart } = useCart();
 
   const subtotal = items.reduce((acc, item) => {
     const val = parseFloat((item.price || "0").replace(/[^0-9.]/g, ""));
@@ -22,10 +22,10 @@ function CartPage() {
   const total = subtotal + tax;
 
   return (
-    <div className="min-h-screen bg-cream text-ink flex flex-col pt-24">
+    <div className="min-h-screen bg-cream text-ink flex flex-col pt-24 overflow-x-hidden">
       <Navbar />
 
-      <main className="flex-1 container-luxury py-12 relative">
+      <main className="flex-1 container-luxury pb-36 sm:pb-12 pt-12 relative">
         <Mandala className="pointer-events-none absolute top-0 right-0 w-[400px] text-burgundy opacity-5 -translate-y-1/4 translate-x-1/4" />
 
         <div className="mb-8">
@@ -39,7 +39,7 @@ function CartPage() {
           <div className="text-center py-20 bg-white rounded-3xl border border-burgundy/10 shadow-soft">
             <h2 className="font-serif text-2xl text-ink mb-4">Your cart is empty</h2>
             <p className="text-ink/60 mb-8 max-w-md mx-auto">Explore our menu to find your next unforgettable meal.</p>
-            <Link to="/#categories" className="btn-primary inline-flex">Go to Menu</Link>
+            <a href="/#categories" className="btn-primary inline-flex">Go to Menu</a>
           </div>
         ) : (
           <div className="grid lg:grid-cols-3 gap-10">
@@ -96,10 +96,10 @@ function CartPage() {
               </AnimatePresence>
             </div>
 
-            {/* <div className="lg:col-span-1">
-              <div className="bg-white rounded-3xl p-6 sm:p-8 border border-burgundy/10 shadow-luxury sticky top-32">
-                <h3 className="font-serif text-2xl text-burgundy mb-6">Order Summary</h3>
-                <div className="space-y-4 text-sm mb-6">
+            <div className="lg:col-span-1">
+              <div className="bg-white rounded-t-3xl lg:rounded-3xl p-5 lg:p-8 border-t border-x lg:border border-burgundy/10 shadow-[0_-10px_40px_rgba(0,0,0,0.1)] lg:shadow-luxury fixed lg:sticky lg:top-32 bottom-0 left-0 right-0 z-40">
+                <h3 className="font-serif text-2xl text-burgundy mb-6 hidden lg:block">Order Summary</h3>
+                <div className="space-y-4 text-sm mb-6 hidden lg:block">
                   <div className="flex justify-between">
                     <span className="text-ink/70">Subtotal ({itemCount} {itemCount === 1 ? 'item' : 'items'})</span>
                     <span className="font-medium">${subtotal.toFixed(2)}</span>
@@ -108,17 +108,20 @@ function CartPage() {
                     <span className="text-ink/70">Estimated Tax (6.625%)</span>
                     <span className="font-medium">${tax.toFixed(2)}</span>
                   </div>
-                  <div className="pt-4 border-t border-burgundy/10 flex justify-between items-center">
-                    <span className="font-serif text-xl text-burgundy">Total</span>
-                    <span className="font-serif text-xl text-gold">${total.toFixed(2)}</span>
-                  </div>
                 </div>
-                <button className="btn-primary w-full justify-center">Proceed to Checkout</button>
-                <div className="mt-4 text-center">
+                <div className="pt-0 lg:pt-4 lg:border-t border-burgundy/10 flex justify-between items-center mb-4 lg:mb-6">
+                  <div className="flex flex-col lg:block">
+                    <span className="font-serif text-lg lg:text-xl text-burgundy">Total</span>
+                    <span className="text-xs text-ink/50 lg:hidden">Incl. taxes</span>
+                  </div>
+                  <span className="font-serif text-2xl lg:text-xl text-gold">${total.toFixed(2)}</span>
+                </div>
+                <Link to="/success" onClick={clearCart} className="btn-primary w-full justify-center">Order</Link>
+                <div className="mt-4 text-center hidden lg:block">
                    <p className="text-[10px] uppercase tracking-widest text-ink/40">Secure Checkout</p>
                 </div>
               </div>
-            </div> */}
+            </div>
           </div>
         )}
       </main>

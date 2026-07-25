@@ -254,7 +254,7 @@ function MenuSection() {
             />
           </div>
 
-          <div className="flex overflow-x-auto pb-4 gap-2 no-scrollbar justify-start md:justify-center flex-nowrap md:flex-wrap px-4 sm:px-0">
+          <div className="flex overflow-x-auto pb-4 gap-2 no-scrollbar justify-start md:justify-center flex-nowrap md:flex-wrap">
             <button
               onClick={() => setActiveCategory("all")}
               className={`px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition whitespace-nowrap border shrink-0 ${activeCategory === "all" ? "bg-burgundy text-cream border-burgundy" : "bg-cream text-burgundy border-burgundy/10 hover:border-burgundy/30"}`}
@@ -274,7 +274,7 @@ function MenuSection() {
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 px-4 sm:px-0">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
           {filteredItems.map((item, i) => (
              <motion.article
                 key={item.name + i}

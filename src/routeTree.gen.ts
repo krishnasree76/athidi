@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CartRouteImport } from './routes/cart'
+import { Route as SuccessRouteImport } from './routes/success'
 import { Route as MenuSlugRouteImport } from './routes/menu.$slug'
 
 const IndexRoute = IndexRouteImport.update({
@@ -23,6 +24,11 @@ const CartRoute = CartRouteImport.update({
   path: '/cart',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SuccessRoute = SuccessRouteImport.update({
+  id: '/success',
+  path: '/success',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MenuSlugRoute = MenuSlugRouteImport.update({
   id: '/menu/$slug',
   path: '/menu/$slug',
@@ -32,30 +38,34 @@ const MenuSlugRoute = MenuSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/cart': typeof CartRoute
+  '/success': typeof SuccessRoute
   '/menu/$slug': typeof MenuSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cart': typeof CartRoute
+  '/success': typeof SuccessRoute
   '/menu/$slug': typeof MenuSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/cart': typeof CartRoute
+  '/success': typeof SuccessRoute
   '/menu/$slug': typeof MenuSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/cart' | '/menu/$slug'
+  fullPaths: '/' | '/cart' | '/success' | '/menu/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/cart' | '/menu/$slug'
-  id: '__root__' | '/' | '/cart' | '/menu/$slug'
+  to: '/' | '/cart' | '/success' | '/menu/$slug'
+  id: '__root__' | '/' | '/cart' | '/success' | '/menu/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CartRoute: typeof CartRoute
+  SuccessRoute: typeof SuccessRoute
   MenuSlugRoute: typeof MenuSlugRoute
 }
 
@@ -75,6 +85,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CartRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/success': {
+      id: '/success'
+      path: '/success'
+      fullPath: '/success'
+      preLoaderRoute: typeof SuccessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/menu/$slug': {
       id: '/menu/$slug'
       path: '/menu/$slug'
@@ -88,6 +105,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CartRoute: CartRoute,
+  SuccessRoute: SuccessRoute,
   MenuSlugRoute: MenuSlugRoute,
 }
 export const routeTree = rootRouteImport
