@@ -13,6 +13,7 @@ export function Navbar() {
 
   const location = useLocation();
   const isMenu = location.pathname.includes('/menu');
+  const isCart = location.pathname.includes('/cart');
 
   useEffect(() => {
     setIsMounted(true);
@@ -118,13 +119,15 @@ export function Navbar() {
       </header>
 
       {/* MOBILE STICKY BOTTOM BAR */}
-      <div className="lg:hidden fixed bottom-0 left-0 w-full z-50 p-4 pb-6 bg-gradient-to-t from-cream via-cream/90 to-transparent pointer-events-none">
-         <div className="pointer-events-auto">
-           <Link to="/menu" className="block w-full text-center bg-[#C89B3C] hover:bg-[#b08530] text-ink py-4 rounded-full text-[17px] font-bold shadow-[0_10px_30px_rgba(200,155,60,0.5)] active:scale-[0.98] transition-transform">
-             Order online
-           </Link>
-         </div>
-      </div>
+      {!isCart && (
+        <div className="lg:hidden fixed bottom-0 left-0 w-full z-50 p-4 pb-6 bg-gradient-to-t from-cream via-cream/90 to-transparent pointer-events-none">
+           <div className="pointer-events-auto">
+             <Link to="/menu" className="block w-full text-center bg-[#C89B3C] hover:bg-[#b08530] text-ink py-4 rounded-full text-[17px] font-bold shadow-[0_10px_30px_rgba(200,155,60,0.5)] active:scale-[0.98] transition-transform">
+               Order online
+             </Link>
+           </div>
+        </div>
+      )}
     </>
   );
 }
