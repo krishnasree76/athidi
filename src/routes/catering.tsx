@@ -84,15 +84,17 @@ ${details}
       </section>
 
       {/* Document Viewer Container */}
-      <section className="container-luxury px-6 lg:px-16 pb-20">
-         <div className="w-full h-[80vh] min-h-[600px] border border-burgundy/10 rounded-3xl overflow-hidden shadow-soft bg-beige/50">
-           <iframe 
-             src="/Athidhi%20Banquet-Catering%20Menu.pdf" 
-             width="100%" 
-             height="100%" 
-             className="w-full h-full border-none"
-             title="Catering Menu PDF Viewer"
-           />
+      <section className="container-luxury px-6 lg:px-16 pb-20 max-w-5xl mx-auto">
+         <div className="w-full flex flex-col gap-6 lg:gap-12">
+           <div className="w-full rounded-2xl lg:rounded-[36px] overflow-hidden shadow-luxury border border-burgundy/10 bg-white">
+             <img src="/catering-menu-1.png" alt="Athidhi Catering Menu Page 1" className="w-full h-auto object-contain" />
+           </div>
+           <div className="w-full rounded-2xl lg:rounded-[36px] overflow-hidden shadow-luxury border border-burgundy/10 bg-white">
+             <img src="/catering-menu-2.png" alt="Athidhi Catering Menu Page 2" className="w-full h-auto object-contain" />
+           </div>
+           <div className="w-full rounded-2xl lg:rounded-[36px] overflow-hidden shadow-luxury border border-burgundy/10 bg-white">
+             <img src="/catering-menu-3.png" alt="Athidhi Catering Menu Page 3" className="w-full h-auto object-contain" />
+           </div>
          </div>
       </section>
 
