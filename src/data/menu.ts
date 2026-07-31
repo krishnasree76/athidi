@@ -1,6 +1,7 @@
 export type MenuItem = {
   name: string;
   price: string;
+  originalPrice?: string;
   description: string;
   veg?: boolean;
   chefSpecial?: boolean;
@@ -36,8 +37,8 @@ export const CATEGORIES: MenuCategory[] = [
     tagline: "Crisp golden crepes from the coast of the south",
     items: [
       { name: "Plain Dosa", price: "$12.99", description: "Crispy golden crepe made from fermented rice and lentil batter.", veg: true },
-      { name: "Masala Dosa", price: "$14.99", description: "Classic dosa stuffed with flavorful potato masala.", veg: true, bestSeller: true },
-      { name: "Mysore Masala Dosa", price: "$14.99", description: "Crispy dosa spread with spicy Mysore chutney and potato filling.", veg: true, chefSpecial: true },
+      { name: "Masala Dosa", price: "$14.99", originalPrice: "$17.99", description: "Classic dosa stuffed with flavorful potato masala.", veg: true, bestSeller: true },
+      { name: "Mysore Masala Dosa", price: "$14.99", originalPrice: "$18.99", description: "Crispy dosa spread with spicy Mysore chutney and potato filling.", veg: true, chefSpecial: true },
       { name: "Ghee Roast", price: "$13.99", description: "Thin paper dosa roasted generously with pure ghee.", veg: true },
       { name: "Rava Dosa", price: "$14.99", description: "Crispy semolina dosa seasoned with cumin and spices.", veg: true },
     ],

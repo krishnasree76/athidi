@@ -3,8 +3,9 @@ import { useCart } from "@/hooks/use-cart";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Mandala } from "@/components/Mandala";
-import { Minus, Plus, Trash2, ArrowLeft } from "lucide-react";
+import { Minus, Plus, Trash2, ArrowLeft, MapPin, Store, UtensilsCrossed } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
 
 export const Route = createFileRoute("/cart")({
   component: CartPage,
@@ -12,6 +13,8 @@ export const Route = createFileRoute("/cart")({
 
 function CartPage() {
   const { items, updateQuantity, removeItem, itemCount, clearCart } = useCart();
+  const [deliveryMethod, setDeliveryMethod] = useState<'dine-in' | 'pickup' | 'delivery'>('pickup');
+  const [address, setAddress] = useState('');
 
   const subtotal = items.reduce((acc, item) => {
     const val = parseFloat((item.price || "0").replace(/[^0-9.]/g, ""));
@@ -99,6 +102,35 @@ function CartPage() {
             <div className="lg:col-span-1">
               <div className="bg-white rounded-t-3xl lg:rounded-3xl p-5 lg:p-8 border-t border-x lg:border border-burgundy/10 shadow-[0_-10px_40px_rgba(0,0,0,0.1)] lg:shadow-luxury fixed lg:sticky lg:top-32 bottom-0 left-0 right-0 z-40">
                 <h3 className="font-serif text-2xl text-burgundy mb-6 hidden lg:block">Order Summary</h3>
+                
+                <div className="mb-6 bg-beige/50 p-1 rounded-xl flex gap-1 border border-burgundy/5">
+                  <button onClick={() => setDeliveryMethod('dine-in')} className={`flex-1 flex flex-col items-center justify-center py-2.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${deliveryMethod === 'dine-in' ? 'bg-white text-burgundy shadow-sm border border-burgundy/10' : 'text-ink/50 hover:text-ink/80'}`}>
+                    <UtensilsCrossed className="h-4 w-4 mb-1" />
+                    Dine-In
+                  </button>
+                  <button onClick={() => setDeliveryMethod('pickup')} className={`flex-1 flex flex-col items-center justify-center py-2.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${deliveryMethod === 'pickup' ? 'bg-white text-burgundy shadow-sm border border-burgundy/10' : 'text-ink/50 hover:text-ink/80'}`}>
+                    <Store className="h-4 w-4 mb-1" />
+                    Pickup
+                  </button>
+                  <button onClick={() => setDeliveryMethod('delivery')} className={`flex-1 flex flex-col items-center justify-center py-2.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${deliveryMethod === 'delivery' ? 'bg-white text-burgundy shadow-sm border border-burgundy/10' : 'text-ink/50 hover:text-ink/80'}`}>
+                    <MapPin className="h-4 w-4 mb-1" />
+                    Delivery
+                  </button>
+                </div>
+
+                {deliveryMethod === 'delivery' && (
+                  <div className="mb-6 animate-in slide-in-from-top-2 fade-in duration-300">
+                    <label className="text-xs uppercase tracking-widest text-burgundy font-bold mb-2 block">Delivery Address *</label>
+                    <textarea 
+                      placeholder="Enter full address, apt/suite, instructions..." 
+                      className="w-full bg-beige border border-burgundy/20 rounded-xl px-4 py-3 text-ink focus:outline-none focus:border-burgundy focus:ring-1 focus:ring-burgundy transition-all resize-none text-sm"
+                      rows={3}
+                      value={address}
+                      onChange={(e) => setAddress(e.target.value)}
+                    />
+                  </div>
+                )}
+
                 <div className="space-y-4 text-sm mb-6 hidden lg:block">
                   <div className="flex justify-between">
                     <span className="text-ink/70">Subtotal ({itemCount} {itemCount === 1 ? 'item' : 'items'})</span>

@@ -10,7 +10,13 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as BanquetRouteImport } from './routes/banquet'
 import { Route as CartRouteImport } from './routes/cart'
+import { Route as CateringRouteImport } from './routes/catering'
+import { Route as GalleryRouteImport } from './routes/gallery'
+import { Route as MenuRouteImport } from './routes/menu'
 import { Route as SuccessRouteImport } from './routes/success'
 import { Route as MenuSlugRouteImport } from './routes/menu.$slug'
 
@@ -19,9 +25,39 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BanquetRoute = BanquetRouteImport.update({
+  id: '/banquet',
+  path: '/banquet',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CartRoute = CartRouteImport.update({
   id: '/cart',
   path: '/cart',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CateringRoute = CateringRouteImport.update({
+  id: '/catering',
+  path: '/catering',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GalleryRoute = GalleryRouteImport.update({
+  id: '/gallery',
+  path: '/gallery',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MenuRoute = MenuRouteImport.update({
+  id: '/menu',
+  path: '/menu',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SuccessRoute = SuccessRouteImport.update({
@@ -30,43 +66,97 @@ const SuccessRoute = SuccessRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const MenuSlugRoute = MenuSlugRouteImport.update({
-  id: '/menu/$slug',
-  path: '/menu/$slug',
-  getParentRoute: () => rootRouteImport,
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => MenuRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
+  '/banquet': typeof BanquetRoute
   '/cart': typeof CartRoute
+  '/catering': typeof CateringRoute
+  '/gallery': typeof GalleryRoute
+  '/menu': typeof MenuRouteWithChildren
   '/success': typeof SuccessRoute
   '/menu/$slug': typeof MenuSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
+  '/banquet': typeof BanquetRoute
   '/cart': typeof CartRoute
+  '/catering': typeof CateringRoute
+  '/gallery': typeof GalleryRoute
+  '/menu': typeof MenuRouteWithChildren
   '/success': typeof SuccessRoute
   '/menu/$slug': typeof MenuSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
+  '/banquet': typeof BanquetRoute
   '/cart': typeof CartRoute
+  '/catering': typeof CateringRoute
+  '/gallery': typeof GalleryRoute
+  '/menu': typeof MenuRouteWithChildren
   '/success': typeof SuccessRoute
   '/menu/$slug': typeof MenuSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/cart' | '/success' | '/menu/$slug'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/auth'
+    | '/banquet'
+    | '/cart'
+    | '/catering'
+    | '/gallery'
+    | '/menu'
+    | '/success'
+    | '/menu/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/cart' | '/success' | '/menu/$slug'
-  id: '__root__' | '/' | '/cart' | '/success' | '/menu/$slug'
+  to:
+    | '/'
+    | '/about'
+    | '/auth'
+    | '/banquet'
+    | '/cart'
+    | '/catering'
+    | '/gallery'
+    | '/menu'
+    | '/success'
+    | '/menu/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/auth'
+    | '/banquet'
+    | '/cart'
+    | '/catering'
+    | '/gallery'
+    | '/menu'
+    | '/success'
+    | '/menu/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  AuthRoute: typeof AuthRoute
+  BanquetRoute: typeof BanquetRoute
   CartRoute: typeof CartRoute
+  CateringRoute: typeof CateringRoute
+  GalleryRoute: typeof GalleryRoute
+  MenuRoute: typeof MenuRouteWithChildren
   SuccessRoute: typeof SuccessRoute
-  MenuSlugRoute: typeof MenuSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -78,11 +168,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/banquet': {
+      id: '/banquet'
+      path: '/banquet'
+      fullPath: '/banquet'
+      preLoaderRoute: typeof BanquetRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/cart': {
       id: '/cart'
       path: '/cart'
       fullPath: '/cart'
       preLoaderRoute: typeof CartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/catering': {
+      id: '/catering'
+      path: '/catering'
+      fullPath: '/catering'
+      preLoaderRoute: typeof CateringRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gallery': {
+      id: '/gallery'
+      path: '/gallery'
+      fullPath: '/gallery'
+      preLoaderRoute: typeof GalleryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/menu': {
+      id: '/menu'
+      path: '/menu'
+      fullPath: '/menu'
+      preLoaderRoute: typeof MenuRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/success': {
@@ -94,19 +226,34 @@ declare module '@tanstack/react-router' {
     }
     '/menu/$slug': {
       id: '/menu/$slug'
-      path: '/menu/$slug'
+      path: '/$slug'
       fullPath: '/menu/$slug'
       preLoaderRoute: typeof MenuSlugRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof MenuRoute
     }
   }
 }
 
+interface MenuRouteChildren {
+  MenuSlugRoute: typeof MenuSlugRoute
+}
+
+const MenuRouteChildren: MenuRouteChildren = {
+  MenuSlugRoute: MenuSlugRoute,
+}
+
+const MenuRouteWithChildren = MenuRoute._addFileChildren(MenuRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  AuthRoute: AuthRoute,
+  BanquetRoute: BanquetRoute,
   CartRoute: CartRoute,
+  CateringRoute: CateringRoute,
+  GalleryRoute: GalleryRoute,
+  MenuRoute: MenuRouteWithChildren,
   SuccessRoute: SuccessRoute,
-  MenuSlugRoute: MenuSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
