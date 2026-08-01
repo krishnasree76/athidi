@@ -722,6 +722,7 @@ function MenuPlatform() {
                         <img
                           src={itemImage}
                           alt={item.name}
+                          loading="lazy"
                           className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-ink/60 via-transparent to-transparent opacity-100 transition-opacity duration-300" />
@@ -801,6 +802,7 @@ function MenuPlatform() {
                           <img
                             src={itemImage}
                             alt={item.name}
+                            loading="lazy"
                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                           />
                           {(item.chefSpecial || item.bestSeller) && (

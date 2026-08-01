@@ -203,7 +203,7 @@ function FeaturedScroller() {
               className="flex-shrink-0 w-[270px] lg:w-[320px] snap-start bg-cream rounded-3xl overflow-hidden group border border-burgundy/10 shadow-[0_4px_24px_rgba(40,10,12,0.06)] hover:border-burgundy/30 transition-all duration-300"
             >
               <div className="h-56 relative overflow-hidden bg-ink/5">
-                <img src={item.categoryImage} alt={item.name} className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-110" />
+                <img src={item.categoryImage} alt={item.name} loading="lazy" className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-110" />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink/50 via-transparent to-transparent opacity-80" />
 
                 <button onClick={() => addItem(item)} className="absolute bottom-4 right-4 h-12 w-12 bg-gold shadow-lg rounded-full text-ink flex items-center justify-center hover:bg-burgundy hover:text-cream transition-all duration-300 active:scale-95">
@@ -247,7 +247,7 @@ function CheckerboardFeature() {
       {/* Block 1: Kabab */}
       <div className="grid lg:grid-cols-2">
         <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 1.2 }} className="h-[400px] sm:h-[550px] lg:h-[700px] relative overflow-hidden bg-ink/10">
-          <img src={imgKabab} alt="The Kabab" className="w-full h-full object-cover transition-transform duration-[20s] hover:scale-105" />
+          <img src={imgKabab} alt="The Kabab" loading="lazy" className="w-full h-full object-cover transition-transform duration-[20s] hover:scale-105" />
         </motion.div>
         <div className="bg-[#FFF8F1] flex flex-col justify-center items-start px-8 sm:px-16 py-20 lg:px-24">
           <motion.div {...fadeUp} className="w-full max-w-lg mx-auto lg:mx-0">
@@ -278,7 +278,7 @@ function CheckerboardFeature() {
           </motion.div>
         </div>
         <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 1.2 }} className="order-1 lg:order-2 h-[400px] sm:h-[550px] lg:h-[700px] relative overflow-hidden bg-ink/10">
-          <img src={imgButterChicken} alt="The Butter Chicken" className="w-full h-full object-cover transition-transform duration-[20s] hover:scale-105" />
+          <img src={imgButterChicken} alt="The Butter Chicken" loading="lazy" className="w-full h-full object-cover transition-transform duration-[20s] hover:scale-105" />
         </motion.div>
       </div>
     </section>
@@ -312,8 +312,7 @@ function TandoorGallery() {
               key={i}
               className="aspect-[4/5] rounded-[32px] overflow-hidden shadow-2xl group border border-white/10 relative cursor-crosshair bg-ink"
             >
-              <img src={src} alt="Heritage Fine Dining Dish" className="w-full h-full object-cover scale-105 transition-transform duration-[1s] ease-out group-hover:scale-125" />
-              <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500" />
+              <img src={src} alt="Heritage Fine Dining Dish" loading="lazy" className="w-full h-full object-cover scale-105 transition-transform duration-[1s] ease-out group-hover:scale-105" />
             </motion.div>
           ))}
         </div>
@@ -336,7 +335,7 @@ function ExperienceContact() {
       {/* Block 3: Dining Room */}
       <div className="grid lg:grid-cols-2">
         <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 1.2 }} className="h-[400px] sm:h-[550px] lg:h-[700px] relative overflow-hidden">
-          <img src={imgDining} alt="The Dining Room" className="w-full h-full object-cover transition-transform duration-[30s] hover:scale-105" />
+          <img src={imgDining} alt="The Dining Room" loading="lazy" className="w-full h-full object-cover transition-transform duration-[30s] hover:scale-105" />
         </motion.div>
         <div className="bg-[#FFF8F1] flex flex-col justify-center items-start px-8 sm:px-16 py-20 lg:px-24">
           <motion.div {...fadeUp} className="w-full max-w-lg mx-auto lg:mx-0">
@@ -363,14 +362,14 @@ function ExperienceContact() {
         </div>
         <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 1.2 }} className="order-1 lg:order-2 h-[400px] sm:h-[550px] lg:h-[700px] relative overflow-hidden bg-ink">
           <div className="absolute inset-0 bg-ink/30 z-10 mix-blend-multiply" />
-          <img src={imgCatering} alt="Athidi Catering" className="w-full h-full object-cover transition-transform duration-[20s] hover:scale-105 opacity-90" />
+          <img src={imgCatering} alt="Athidi Catering" loading="lazy" className="w-full h-full object-cover transition-transform duration-[20s] hover:scale-105 opacity-90" />
         </motion.div>
       </div>
 
       {/* Block 5: Visit Athidi */}
       <div id="contact" className="grid lg:grid-cols-2">
         <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 1.2 }} className="h-[400px] sm:h-[550px] lg:h-[700px] relative overflow-hidden bg-ink/5">
-          <img src={imgAthidi} alt="Visit Athidi" className="w-full h-full object-cover transition-transform duration-[20s] hover:scale-110" />
+          <img src={imgAthidi} alt="Visit Athidi" loading="lazy" className="w-full h-full object-cover transition-transform duration-[20s] hover:scale-110" />
         </motion.div>
         <div className="bg-[#FFF8F1] flex flex-col justify-center items-start px-8 sm:px-16 py-20 lg:px-24">
           <motion.div {...fadeUp} className="w-full max-w-lg mx-auto lg:mx-0 pr-0 xl:pr-16">

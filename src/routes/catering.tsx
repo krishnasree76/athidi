@@ -103,7 +103,7 @@ ${details}
         <Mandala className="pointer-events-none absolute top-10 right-10 w-[400px] text-gold opacity-[0.05] animate-spin-slow" />
         <Mandala className="pointer-events-none absolute bottom-10 left-10 w-[400px] text-gold opacity-[0.05] animate-spin-slower" />
 
-        <div className="container-luxury relative z-10 max-w-3xl mx-auto px-6 lg:px-0">
+        <div className="container-luxury relative z-10 max-w-3xl mx-auto px-4 lg:px-0">
           <motion.div {...fadeUp} className="text-center mb-14">
              <div className="gold-divider justify-center mb-4 text-gold-soft"><span className="h-px w-8 bg-gold-soft" /> Enquire Now</div>
              <h2 className="font-serif text-4xl lg:text-5xl text-cream leading-tight mb-4">Request Catering</h2>
@@ -112,7 +112,7 @@ ${details}
              </p>
           </motion.div>
 
-          <motion.div {...fadeUp} className="bg-cream p-8 md:p-12 rounded-3xl shadow-luxury">
+          <motion.div {...fadeUp} className="bg-cream p-5 sm:p-8 md:p-12 rounded-3xl shadow-luxury">
              <form onSubmit={handleSubmit} className="flex flex-col gap-6">
                
                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -125,7 +125,7 @@ ${details}
                      value={formData.name} 
                      onChange={handleChange} 
                      placeholder="John Doe" 
-                     className="w-full bg-beige border border-burgundy/20 rounded-xl px-4 py-3 text-ink focus:outline-none focus:border-burgundy focus:ring-1 focus:ring-burgundy transition-all"
+                     className="w-full bg-beige border border-burgundy/20 rounded-xl px-4 py-3 text-base sm:text-sm text-ink focus:outline-none focus:border-burgundy focus:ring-1 focus:ring-burgundy transition-all"
                    />
                  </div>
                  
@@ -138,7 +138,7 @@ ${details}
                      value={formData.email} 
                      onChange={handleChange} 
                      placeholder="john@example.com" 
-                     className="w-full bg-beige border border-burgundy/20 rounded-xl px-4 py-3 text-ink focus:outline-none focus:border-burgundy focus:ring-1 focus:ring-burgundy transition-all"
+                     className="w-full bg-beige border border-burgundy/20 rounded-xl px-4 py-3 text-base sm:text-sm text-ink focus:outline-none focus:border-burgundy focus:ring-1 focus:ring-burgundy transition-all"
                    />
                  </div>
                </div>
@@ -152,7 +152,7 @@ ${details}
                    value={formData.phone} 
                    onChange={handleChange} 
                    placeholder="+1 (609) 000-0000" 
-                   className="w-full bg-beige border border-burgundy/20 rounded-xl px-4 py-3 text-ink focus:outline-none focus:border-burgundy focus:ring-1 focus:ring-burgundy transition-all"
+                   className="w-full bg-beige border border-burgundy/20 rounded-xl px-4 py-3 text-base sm:text-sm text-ink focus:outline-none focus:border-burgundy focus:ring-1 focus:ring-burgundy transition-all"
                  />
                </div>
 
@@ -165,7 +165,7 @@ ${details}
                      required
                      value={formData.date} 
                      onChange={handleChange} 
-                     className="w-full bg-beige border border-burgundy/20 rounded-xl px-4 py-3 text-ink focus:outline-none focus:border-burgundy focus:ring-1 focus:ring-burgundy transition-all"
+                     className="w-full bg-beige border border-burgundy/20 rounded-xl px-4 py-3 text-base sm:text-sm text-ink focus:outline-none focus:border-burgundy focus:ring-1 focus:ring-burgundy transition-all"
                    />
                  </div>
 
@@ -176,7 +176,7 @@ ${details}
                      name="time" 
                      value={formData.time} 
                      onChange={handleChange} 
-                     className="w-full bg-beige border border-burgundy/20 rounded-xl px-4 py-3 text-ink focus:outline-none focus:border-burgundy focus:ring-1 focus:ring-burgundy transition-all"
+                     className="w-full bg-beige border border-burgundy/20 rounded-xl px-4 py-3 text-base sm:text-sm text-ink focus:outline-none focus:border-burgundy focus:ring-1 focus:ring-burgundy transition-all"
                    />
                  </div>
                  
@@ -189,7 +189,7 @@ ${details}
                      value={formData.guests} 
                      onChange={handleChange} 
                      placeholder="e.g. 50" 
-                     className="w-full bg-beige border border-burgundy/20 rounded-xl px-4 py-3 text-ink focus:outline-none focus:border-burgundy focus:ring-1 focus:ring-burgundy transition-all"
+                     className="w-full bg-beige border border-burgundy/20 rounded-xl px-4 py-3 text-base sm:text-sm text-ink focus:outline-none focus:border-burgundy focus:ring-1 focus:ring-burgundy transition-all"
                    />
                  </div>
                </div>
@@ -202,7 +202,7 @@ ${details}
                    value={formData.details} 
                    onChange={handleChange} 
                    placeholder="Tell us about the event (Birthday, Anniversay, Wedding) and any specific requirements..." 
-                   className="w-full bg-beige border border-burgundy/20 rounded-xl px-4 py-3 text-ink focus:outline-none focus:border-burgundy focus:ring-1 focus:ring-burgundy transition-all resize-y"
+                   className="w-full bg-beige border border-burgundy/20 rounded-xl px-4 py-3 text-base sm:text-sm text-ink focus:outline-none focus:border-burgundy focus:ring-1 focus:ring-burgundy transition-all resize-y"
                  ></textarea>
                </div>
 

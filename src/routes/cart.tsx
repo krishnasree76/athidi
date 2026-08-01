@@ -123,11 +123,18 @@ function CartPage() {
                     <label className="text-xs uppercase tracking-widest text-burgundy font-bold mb-2 block">Delivery Address *</label>
                     <textarea 
                       placeholder="Enter full address, apt/suite, instructions..." 
-                      className="w-full bg-beige border border-burgundy/20 rounded-xl px-4 py-3 text-ink focus:outline-none focus:border-burgundy focus:ring-1 focus:ring-burgundy transition-all resize-none text-sm"
+                      className="w-full bg-beige border border-burgundy/20 rounded-xl px-4 py-3 text-ink focus:outline-none focus:border-burgundy focus:ring-1 focus:ring-burgundy transition-all resize-none text-sm mb-3"
                       rows={3}
                       value={address}
                       onChange={(e) => setAddress(e.target.value)}
                     />
+                    <label className="text-xs uppercase tracking-widest text-burgundy font-bold mb-2 block">Phone Number *</label>
+                    <input 
+                      type="tel"
+                      placeholder="Enter your phone number..." 
+                      className="w-full bg-beige border border-burgundy/20 rounded-xl px-4 py-3 text-ink focus:outline-none focus:border-burgundy focus:ring-1 focus:ring-burgundy transition-all text-sm mb-2"
+                    />
+                    <p className="text-xs text-ink/60">We will call this number if we have trouble finding your location.</p>
                   </div>
                 )}
 
