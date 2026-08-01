@@ -211,26 +211,26 @@ ${details}
                </div>
 
                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                 <div className="flex flex-col gap-2">
-                   <label className="text-xs uppercase tracking-widest text-burgundy font-bold">Event Date *</label>
+                 <div className="flex flex-col gap-2 min-w-0">
+                   <label className="text-xs uppercase tracking-widest text-burgundy font-bold truncate">Event Date *</label>
                    <input 
                      type="date" 
                      name="date" 
                      required
                      value={formData.date} 
                      onChange={handleChange} 
-                     className="w-full bg-beige border border-burgundy/20 rounded-xl px-4 py-3 text-base sm:text-sm text-ink focus:outline-none focus:border-burgundy focus:ring-1 focus:ring-burgundy transition-all"
+                     className="w-full bg-beige border border-burgundy/20 rounded-xl px-3 sm:px-4 py-3 text-base sm:text-sm text-ink focus:outline-none focus:border-burgundy focus:ring-1 focus:ring-burgundy transition-all appearance-none min-w-0"
                    />
                  </div>
 
-                 <div className="flex flex-col gap-2">
-                   <label className="text-xs uppercase tracking-widest text-burgundy font-bold">Time</label>
+                 <div className="flex flex-col gap-2 min-w-0">
+                   <label className="text-xs uppercase tracking-widest text-burgundy font-bold truncate">Time</label>
                    <input 
                      type="time" 
                      name="time" 
                      value={formData.time} 
                      onChange={handleChange} 
-                     className="w-full bg-beige border border-burgundy/20 rounded-xl px-4 py-3 text-base sm:text-sm text-ink focus:outline-none focus:border-burgundy focus:ring-1 focus:ring-burgundy transition-all"
+                     className="w-full bg-beige border border-burgundy/20 rounded-xl px-3 sm:px-4 py-3 text-base sm:text-sm text-ink focus:outline-none focus:border-burgundy focus:ring-1 focus:ring-burgundy transition-all appearance-none min-w-0"
                    />
                  </div>
                  
