@@ -57,9 +57,11 @@ function CartPage() {
                     key={item.name}
                     className="flex gap-4 sm:gap-6 bg-white p-4 sm:p-6 rounded-3xl border border-burgundy/10 shadow-soft relative"
                   >
-                    <div className="w-20 h-20 sm:w-28 sm:h-28 shrink-0 rounded-2xl overflow-hidden bg-beige">
-                      <img src={item.categoryImage} alt={item.name} className="w-full h-full object-cover" />
-                    </div>
+                    {item.categoryImage && (
+                      <div className="w-20 h-20 sm:w-28 sm:h-28 shrink-0 rounded-2xl overflow-hidden bg-beige">
+                        <img src={item.categoryImage} alt={item.name} className="w-full h-full object-cover" />
+                      </div>
+                    )}
                     <div className="flex-1 flex flex-col justify-between">
                       <div className="flex justify-between items-start">
                         <div>

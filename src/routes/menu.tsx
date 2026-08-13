@@ -446,7 +446,7 @@ function MenuPlatform() {
     return CATEGORIES.flatMap((c) =>
       c.items
         .filter((i) => i.bestSeller || i.chefSpecial)
-        .map((i) => ({ ...i, categoryImage: c.image, categoryName: c.name, categorySlug: c.slug }))
+        .map((i: any) => ({ ...i, categoryImage: i.categoryImage || c.image, categoryName: c.name, categorySlug: c.slug }))
     ).slice(0, 10);
   }, [CATEGORIES]);
 
