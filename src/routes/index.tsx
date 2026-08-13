@@ -10,6 +10,7 @@ import {
   Wheat, Flame, Utensils, ChefHat, Star, ArrowRight,
   MapPin, Phone, Mail, Clock, ShoppingCart, Plus, Sparkles
 } from "lucide-react";
+import { fetchToastMenuData } from "@/api/toast";
 
 // Hero Images
 import slide1 from "@/assets/hero/AthidhiIndianFineDineRestaurant_Hero.jpg";
@@ -46,6 +47,7 @@ export const Route = createFileRoute("/")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
+  loader: () => fetchToastMenuData(),
   component: Home,
 });
 
@@ -57,11 +59,13 @@ const fadeUp = {
 };
 
 function Home() {
+  const categories = Route.useLoaderData();
+
   return (
     <div className="min-h-screen bg-cream text-ink overflow-x-hidden">
       <Navbar />
       <Hero />
-      <FeaturedScroller />
+      <FeaturedScroller categories={categories} />
       <CheckerboardFeature />
       <TandoorGallery />
       <ExperienceContact />
@@ -169,11 +173,24 @@ function Hero() {
 
 
 /* ---------------- POPULAR FEATURED HORIZONTAL ---------------- */
-function FeaturedScroller() {
+function FeaturedScroller({ categories }: { categories: any[] }) {
   const { addItem } = useCart();
   const featured = useMemo(() => {
-    return CATEGORIES.flatMap(c => c.items.filter(i => i.bestSeller || i.chefSpecial).map(i => ({ ...i, categoryImage: c.image }))).slice(0, 10);
-  }, []);
+    const picked: any[] = [];
+    for (const c of categories) {
+      // Find the first item in this category that has both an image and a price
+      const validItem = c.items.find((i: any) => i.categoryImage && i.price);
+      if (validItem) {
+        picked.push({
+          ...validItem,
+          categoryImage: validItem.categoryImage || c.image,
+          categoryName: c.name,
+          categorySlug: c.slug
+        });
+      }
+    }
+    return picked.slice(0, 10);
+  }, [categories]);
 
   return (
     <section className="py-20 lg:py-32 bg-beige relative overflow-hidden">
@@ -206,16 +223,13 @@ function FeaturedScroller() {
                 <img src={item.categoryImage} alt={item.name} loading="lazy" className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-110" />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink/50 via-transparent to-transparent opacity-80" />
 
-                <button onClick={() => addItem(item)} className="absolute bottom-4 right-4 h-12 w-12 bg-gold shadow-lg rounded-full text-ink flex items-center justify-center hover:bg-burgundy hover:text-cream transition-all duration-300 active:scale-95">
+                <button onClick={() => addItem(item as any)} className="absolute bottom-4 right-4 h-12 w-12 bg-gold shadow-lg rounded-full text-ink flex items-center justify-center hover:bg-burgundy hover:text-cream transition-all duration-300 active:scale-95">
                   <Plus className="h-6 w-6 stroke-2" />
                 </button>
               </div>
               <div className="p-6">
                 <div className="flex justify-between items-start mb-2 gap-2">
                   <h3 className="font-serif text-[19px] text-ink font-bold leading-tight line-clamp-1">{item.name}</h3>
-                  <span className={`mt-0.5 shrink-0 rounded-sm border-[1.5px] ${item.veg ? "border-green-700" : "border-red-700"} p-[2px]`}>
-                    <div className={`h-[5px] w-[5px] rounded-full ${item.veg ? "bg-green-700" : "bg-red-700"}`} />
-                  </span>
                 </div>
                 <p className="text-[13px] text-ink/60 line-clamp-2 mt-2 font-medium leading-relaxed">{item.description}</p>
                 <div className="mt-5 font-serif text-[22px] font-semibold tracking-wide flex items-center gap-3">

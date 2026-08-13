@@ -381,9 +381,9 @@ import {
   ChevronLeft,
   ChevronRight
 } from "lucide-react";
-import { CATEGORIES } from "@/data/menu";
 import { useCart } from "@/hooks/use-cart";
 import { Navbar } from "@/components/Navbar";
+import { fetchToastMenuData } from "@/api/toast";
 
 // Premium Imagery mappings
 import imgBiryani from "@/assets/gallery/AthidhiIndianFineDineRestaurant_HyderabadiGoatDumBiryani.jpg";
@@ -400,6 +400,7 @@ export const Route = createFileRoute("/menu")({
       { name: "description", content: "Explore our collections of heritage Indian cuisine." },
     ],
   }),
+  loader: async () => await fetchToastMenuData(),
   component: MenuPlatform,
 });
 
@@ -413,8 +414,9 @@ const premiumImages: Record<string, string> = {
 };
 
 function MenuPlatform() {
+  const CATEGORIES = Route.useLoaderData();
   const { addItem } = useCart();
-  const [activeSlug, setActiveSlug] = useState(CATEGORIES[0].slug);
+  const [activeSlug, setActiveSlug] = useState(CATEGORIES[0]?.slug || "");
   const [searchQuery, setSearchQuery] = useState("");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
@@ -440,12 +442,13 @@ function MenuPlatform() {
 
   // Popular / Featured items pool
   const featuredItems = useMemo(() => {
+    if (!CATEGORIES) return [];
     return CATEGORIES.flatMap((c) =>
       c.items
         .filter((i) => i.bestSeller || i.chefSpecial)
-        .map((i) => ({ ...i, categoryImage: c.image }))
+        .map((i) => ({ ...i, categoryImage: c.image, categoryName: c.name, categorySlug: c.slug }))
     ).slice(0, 10);
-  }, []);
+  }, [CATEGORIES]);
 
   // Center active pill inside the mobile horizontal bar
   const centerMobilePill = (slug: string) => {
@@ -473,7 +476,7 @@ function MenuPlatform() {
 
       // Handle top boundary condition
       if (scrollY < 120) {
-        if (activeSlug !== CATEGORIES[0].slug) {
+        if (CATEGORIES[0] && activeSlug !== CATEGORIES[0].slug) {
           setActiveSlug(CATEGORIES[0].slug);
           centerMobilePill(CATEGORIES[0].slug);
         }
@@ -712,22 +715,28 @@ function MenuPlatform() {
               >
                 {featuredItems.map((item, idx) => {
                   const itemImage =
-                    premiumImages[item.name] || item.categoryImage;
+                    premiumImages[item.name] || (item as any).categoryImage || item.categoryImage;
                   return (
                     <article
                       key={"feat" + idx}
                       className="flex-shrink-0 w-[280px] lg:w-[320px] snap-start bg-[#FFF8F1] rounded-[24px] border border-burgundy/5 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_40px_rgba(91,11,19,0.12)] transition-all duration-300 group cursor-pointer"
                     >
                       <div className="h-48 overflow-hidden relative rounded-t-[24px]">
-                        <img
-                          src={itemImage}
-                          alt={item.name}
-                          loading="lazy"
-                          className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-                        />
+                        {itemImage ? (
+                          <img
+                            src={itemImage}
+                            alt={item.name}
+                            loading="lazy"
+                            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-beige flex items-center justify-center">
+                            <span className="text-ink/40 font-serif italic">Athidhi</span>
+                          </div>
+                        )}
                         <div className="absolute inset-0 bg-gradient-to-t from-ink/60 via-transparent to-transparent opacity-100 transition-opacity duration-300" />
                         <button
-                          onClick={() => addItem(item)}
+                          onClick={() => addItem(item as any)}
                           className="absolute bottom-4 right-4 h-10 w-10 rounded-full bg-gold text-ink flex items-center justify-center shadow-lg hover:bg-burgundy hover:text-cream transition-all duration-300 active:scale-95"
                         >
                           <Plus className="h-5 w-5" />
@@ -738,15 +747,6 @@ function MenuPlatform() {
                           <h4 className="font-serif text-lg text-ink font-semibold truncate pr-3">
                             {item.name}
                           </h4>
-                          <span
-                            className={`mt-0.5 h-3 w-3 shrink-0 rounded-sm border-[1.5px] ${item.veg ? "border-green-700" : "border-red-700"
-                              } grid place-items-center`}
-                          >
-                            <span
-                              className={`h-1.5 w-1.5 rounded-full ${item.veg ? "bg-green-700" : "bg-red-700"
-                                }`}
-                            />
-                          </span>
                         </div>
                         <p className="text-sm text-ink/60 line-clamp-2 mb-4 font-light leading-relaxed">
                           {item.description}
@@ -790,7 +790,7 @@ function MenuPlatform() {
                 >
                   {category.items.map((item, idx) => {
                     const itemImage =
-                      premiumImages[item.name] || category.image;
+                      premiumImages[item.name] || (item as any).categoryImage || category.image;
 
                     return (
                       <article
@@ -798,33 +798,35 @@ function MenuPlatform() {
                         className="group bg-white rounded-2xl p-3 lg:p-4 border border-ink/5 shadow-[0_2px_10px_rgb(0,0,0,0.02)] hover:shadow-luxury hover:border-burgundy/10 transition-all duration-500 flex gap-4 lg:gap-5 items-center w-full min-w-0"
                       >
                         {/* Dish Thumbnail */}
-                        <div className="relative h-24 w-24 sm:h-28 sm:w-28 lg:h-36 lg:w-36 rounded-[16px] overflow-hidden flex-shrink-0 bg-beige border border-ink/5">
-                          <img
-                            src={itemImage}
-                            alt={item.name}
-                            loading="lazy"
-                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                          />
-                          {(item.chefSpecial || item.bestSeller) && (
-                            <div className="absolute top-1.5 left-1.5 lg:top-2 lg:left-2">
-                              {item.chefSpecial ? (
-                                <span
-                                  className="inline-flex rounded-full bg-burgundy/90 backdrop-blur-md text-cream p-1 lg:p-1.5 shadow-sm"
-                                  title="Chef Special"
-                                >
-                                  <Sparkles className="h-3 w-3" />
-                                </span>
-                              ) : (
-                                <span
-                                  className="inline-flex rounded-full bg-gold/90 backdrop-blur-md text-ink p-1 lg:p-1.5 shadow-sm"
-                                  title="Best Seller"
-                                >
-                                  <Flame className="h-3 w-3" />
-                                </span>
-                              )}
-                            </div>
-                          )}
-                        </div>
+                        {itemImage && (
+                          <div className="relative h-24 w-24 sm:h-28 sm:w-28 lg:h-36 lg:w-36 rounded-[16px] overflow-hidden flex-shrink-0 bg-beige border border-ink/5">
+                            <img
+                              src={itemImage}
+                              alt={item.name}
+                              loading="lazy"
+                              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            />
+                            {(item.chefSpecial || item.bestSeller) && (
+                              <div className="absolute top-1.5 left-1.5 lg:top-2 lg:left-2">
+                                {item.chefSpecial ? (
+                                  <span
+                                    className="inline-flex rounded-full bg-burgundy/90 backdrop-blur-md text-cream p-1 lg:p-1.5 shadow-sm"
+                                    title="Chef Special"
+                                  >
+                                    <Sparkles className="h-3 w-3" />
+                                  </span>
+                                ) : (
+                                  <span
+                                    className="inline-flex rounded-full bg-gold/90 backdrop-blur-md text-ink p-1 lg:p-1.5 shadow-sm"
+                                    title="Best Seller"
+                                  >
+                                    <Flame className="h-3 w-3" />
+                                  </span>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        )}
 
                         {/* Dish Meta Content */}
                         <div className="flex-1 flex flex-col h-full py-0.5 lg:py-1 pr-1 lg:pr-2 min-w-0">
@@ -832,15 +834,6 @@ function MenuPlatform() {
                             <h3 className="font-serif text-[15px] sm:text-base lg:text-[19px] text-ink leading-tight pr-2 truncate shrink min-w-0">
                               {item.name}
                             </h3>
-                            <span
-                              className={`mt-0.5 h-3 w-3 sm:mt-1 shrink-0 rounded-sm border-[1.5px] ${item.veg ? "border-green-700" : "border-red-700"
-                                } flex items-center justify-center`}
-                            >
-                              <span
-                                className={`h-1.5 w-1.5 rounded-full ${item.veg ? "bg-green-700" : "bg-red-700"
-                                  }`}
-                              />
-                            </span>
                           </div>
 
                           <p className="text-[11px] sm:text-xs lg:text-sm text-ink/60 line-clamp-2 mb-2 sm:mb-3 leading-relaxed font-light flex-1 pr-1">
@@ -855,7 +848,7 @@ function MenuPlatform() {
                               )}
                             </div>
                             <button
-                              onClick={() => addItem(item)}
+                              onClick={() => addItem(item as any)}
                               className="flex items-center gap-1.5 px-3 py-1.5 lg:px-4 lg:py-2 rounded-full border border-burgundy/20 text-burgundy bg-burgundy/5 hover:bg-burgundy hover:border-burgundy hover:text-cream transition-colors text-xs lg:text-sm font-semibold tracking-wide flex-shrink-0 active:scale-95"
                             >
                               <Plus className="h-3 w-3 lg:h-4 lg:w-4" /> Add

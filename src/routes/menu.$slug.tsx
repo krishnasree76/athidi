@@ -136,9 +136,6 @@ function CategoryPage() {
                   <div className="flex-1 p-6 sm:p-7">
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex items-start gap-3">
-                        <span className={`mt-2 h-3 w-3 shrink-0 rounded-sm border-2 ${item.veg ? "border-green-700" : "border-red-700"} grid place-items-center`}>
-                          <span className={`h-1.5 w-1.5 rounded-full ${item.veg ? "bg-green-700" : "bg-red-700"}`} />
-                        </span>
                         <h3 className="font-serif text-2xl text-burgundy leading-tight">{item.name}</h3>
                       </div>
                       <div className="font-serif text-2xl text-gold shrink-0">{item.price}</div>
